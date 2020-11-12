@@ -1,19 +1,20 @@
 <template>
   <Layout>
     <div class="navBar">
-      <Icon class="leftIcon" name="left" />
+      <Icon class="leftIcon" name="left" @click.native="goback" />
       <span class="title"> 编辑标签</span>
       <span class="rightIcon"></span>
     </div>
     <div class="form-wrapper">
       <Notes
         :value="tag.name"
+        @update:value="update"
         field-name="标签名"
         placeholder="在这里输入标签名"
       />
     </div>
     <div class="button-wrapper">
-      <Button>删除标签</Button>
+      <Button @click="remove">删除标签</Button>
     </div>
   </Layout>
 </template>
@@ -24,6 +25,7 @@ import { Component } from "vue-property-decorator";
 import tagListModel from "@/models/tagListModel";
 import Notes from "@/components/Money/Notes.vue";
 import Button from "@/components/Button.vue";
+import router from "@/router";
 
 @Component({ components: { Notes, Button } })
 export default class EditLabel extends Vue {
@@ -38,6 +40,19 @@ export default class EditLabel extends Vue {
     } else {
       this.$router.replace("/404");
     }
+  }
+  update(name: string) {
+    if (this.tag) {
+      tagListModel.update(this.tag.id, name);
+    }
+  }
+  remove() {
+    if (this.tag) {
+      tagListModel.remove(this.tag.id);
+    }
+  }
+  goback() {
+    this.$router.back();
   }
 }
 </script>
