@@ -17,12 +17,3 @@ type TagListModel = {
   create: (name: string) => "success" | "duplicated"; //success表示成功，duplicated表示重复
   save: () => void;
 };
-interface Window {
-  tagList: Tag[];
-  createTag: (name: string) => void;
-  removeTag: (id: string) => boolean;
-  updateTag: TagListModel["update"];
-  findTag: (id: string) => Tag | undefined;
-  recordList: RecordItem[];
-  createRecord: (record: RecordItem) => void;
-}
