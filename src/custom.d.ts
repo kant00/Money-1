@@ -3,7 +3,7 @@ type RecordItem = {
   notes: string;
   type: string;
   amount: number;
-  createdAt?: Date;
+  createdAt?: string;
 };
 type Tag = {
   id: string;
@@ -16,4 +16,9 @@ type TagListModel = {
   fetch: () => Tag[];
   create: (name: string) => "success" | "duplicated"; //success表示成功，duplicated表示重复
   save: () => void;
+};
+type RootState = {
+  recordList: RecordItem[];
+  tagList: Tag[];
+  currentTag?: Tag;
 };

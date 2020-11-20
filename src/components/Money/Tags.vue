@@ -22,6 +22,7 @@ import TagHelper from "@/mixins/TagHelper";
 import { mixins } from "vue-class-component";
 @Component
 export default class Tags extends mixins(TagHelper) {
+  @Prop() readonly value!: Tag[];
   get tagList() {
     return this.$store.state.tagList;
   }
