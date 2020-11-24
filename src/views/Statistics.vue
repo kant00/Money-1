@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <Tabs class-prefix="type" :dataSource="recordTypeList" :value.sync="type" />
-    <div>
+    <div v-if="groupList.length > 0">
       <ol>
         <li v-for="(group, index) in groupList" :key="index">
           <h3 class="title">
@@ -17,6 +17,7 @@
         </li>
       </ol>
     </div>
+    <div v-else class="noResult">目前没有相关记录</div>
   </Layout>
 </template>
 <script lang="ts">
@@ -46,7 +47,7 @@ export default class Statistics extends Vue {
     }
   }
   tagString(tags: Tag[]) {
-    return tags.length === 0 ? "无" : tags.join(",");
+    return tags.length === 0 ? "无" : tags.map((t) => t.name).join("，");
   }
   get recordList() {
     return this.$store.state.recordList;
@@ -65,6 +66,9 @@ export default class Statistics extends Vue {
         (a: RecordItem, b: RecordItem) =>
           dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf()
       );
+    if (newList.length === 0) {
+      return [] as Result;
+    }
     type Result = { title: string; total?: number; items: RecordItem[] }[];
     const result: Result = [
       {
@@ -94,6 +98,10 @@ export default class Statistics extends Vue {
 }
 </script>
 <style lang="scss" scoped>
+.noResult {
+  padding: 16px;
+  text-align: center;
+}
 ::v-deep {
   .type-tabs-item {
     background: #c4c4c4;

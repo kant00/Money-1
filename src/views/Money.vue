@@ -5,7 +5,7 @@
     <Notes
       field-name="备注"
       placeholder="在这里输入备注"
-      @update:value="onUpdateNotes"
+      :value.sync="record.notes"
     />
     <Tags :value.sync="record.tags" />
   </Layout>
@@ -34,14 +34,19 @@ export default class Money extends Vue {
   created() {
     this.$store.commit("fetchRecords");
   }
-  onUpdateNotes(value: string) {
-    this.record.notes = value;
-  }
   onUpdateAmount(value: string) {
     this.record.amount = parseFloat(value);
   }
   saveRecord() {
+    if (
+      !this.record.tags ||
+      this.record.tags.length === 0 ||
+      this.record.amount === 0
+    ) {
+      return window.alert("请选择标签并输入有效金额");
+    }
     this.$store.commit("createRecord", this.record);
+    this.record.notes = "";
   }
 }
 </script>
